@@ -10,6 +10,13 @@ struct Big{
     Big operator-(const Big ob);
     bool operator==(const Big ob);
     bool operator!=(const Big ob);
+    Big operator++(); //prefix
+    Big operator++(int); //postfix
+    Big operator--(); //prefix --a
+    Big operator--(int); //postfix  a--
+    Big operator+=(const Big ob);
+    Big operator-=(const Big ob);
+    Big operator*(const Big ob);
 };
 
 

@@ -1,12 +1,15 @@
 #include <iostream>
 #include "big_arifmetics.cpp"
 int main(){
-    while (true){
-        Big a,b;
-        std::cout<<"Первое число: ";
-        std::cin >> a;
-        std::cout<<"Второе число: ";
-        std::cin >>b;
-        std::cout<<"\n\nState: "<<(a == b) << std::endl;
-    }
+    Big ob = "10";
+    std::cout << multiplication_to_odnozn(ob,"0")<<std::endl;
+    std::cout << multiplication_to_odnozn(ob,"1")<<std::endl;
+    std::cout << multiplication_to_odnozn(ob,"2")<<std::endl;
+    std::cout << multiplication_to_odnozn(ob,"3")<<std::endl;
+    std::cout << multiplication_to_odnozn(ob,"4")<<std::endl;
+    std::cout << multiplication_to_odnozn(ob,"5")<<std::endl;
+    std::cout << multiplication_to_odnozn(ob,"6")<<std::endl;
+    std::cout << multiplication_to_odnozn(ob,"7")<<std::endl;
+    std::cout << multiplication_to_odnozn(ob,"8")<<std::endl;
+    std::cout << multiplication_to_odnozn(ob,"9")<<std::endl;
 }

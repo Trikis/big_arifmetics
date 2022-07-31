@@ -200,3 +200,54 @@ bool Big::operator==(const Big ob){
 bool Big::operator!=(const Big ob){
     return number != ob.number;
 }
+Big Big::operator++(){ //prefix
+/*
+Prefix:
+    int a=0;
+
+    int b=++a;    b=1,a=1
+*/
+  *this = *this + "1";
+   return *this;
+}
+Big Big::operator++(int){
+/*
+  Postfix:
+      int a=0;
+      int b=a++;  // a=1,b=0 
+*/
+    Big tmp_ob = *this;
+    *this = *this + "1";
+    return tmp_ob;
+}
+Big Big::operator--(){ 
+  *this = *this - "1";
+   return *this;
+}
+Big Big::operator--(int){
+    Big tmp_ob = *this;
+    *this = *this - "1";
+    return tmp_ob;
+}
+Big Big::operator+=(const Big ob){
+    *this = *this + ob;
+    return *this;
+}
+Big Big::operator-=(const Big ob){
+    *this = *this - ob;
+    return *this;
+}
+Big multiplication_to_odnozn(const Big ob1, const Big ob2){
+    // ob1 - любое , ob2 однозначное число    ob1,ob2 > 0
+    int mod = char_to_int(ob2.number[0]);
+    if (mod == 0) return "0";
+    Big res = "0";
+    for (int i =0; i < mod; ++i){
+        res += ob1;
+    }
+    res.number = to_normal(res.number);
+    return res;
+}
+Big Big::operator*(const Big ob){
+    //to do
+}
