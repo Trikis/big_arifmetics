@@ -5,18 +5,24 @@ struct Big{
     Big(std::string value);
     Big(){}
     Big (const char* arr);
-    Big operator=(const Big ob);
-    Big operator+(const Big ob);
-    Big operator-(const Big ob);
-    bool operator==(const Big ob);
-    bool operator!=(const Big ob);
+    Big operator=(const Big& ob);
+    Big operator+(const Big& ob);
+    Big operator-(const Big& ob);
+    bool operator==(const Big& ob);
+    bool operator!=(const Big& ob);
     Big operator++(); //prefix
     Big operator++(int); //postfix
     Big operator--(); //prefix --a
     Big operator--(int); //postfix  a--
-    Big operator+=(const Big ob);
-    Big operator-=(const Big ob);
-    Big operator*(const Big ob);
+    Big operator+=(const Big& ob);
+    Big operator-=(const Big& ob);
+    Big operator*(const Big& ob);
+    Big operator*=(const Big& ob);
+    bool operator<(const Big& ob);
+    bool operator>(const Big& ob);
+    bool operator<=(const Big& ob);
+    bool operator>=(const Big& ob);
+    Big pow(const Big& ob);
 };
 
 

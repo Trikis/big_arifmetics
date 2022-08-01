@@ -74,6 +74,9 @@ std::string first_plus(std::string arg1,std::string arg2){
             res.insert(0,int_to_string(tmp_res));
         }
     }
+    if (dop == 1) {
+        res.insert(0,"1");
+    }
     return res;
 }
 bool is_first_more(std::string arg1, std::string arg2){
@@ -161,11 +164,11 @@ Big::Big (const char* arr){
                exit(1);
            }
 }
-Big Big::operator=(const Big ob){
+Big Big::operator=(const Big& ob){
         number = ob.number;
         return *this;
 }
-Big Big::operator+(const Big ob){
+Big Big::operator+(const Big& ob){
     std::string arg1 = number;
     std::string arg2 = ob.number;
     std::string res = "";
@@ -188,16 +191,16 @@ Big Big::operator+(const Big ob){
     res = to_normal(res);
     return res;
 }
-Big Big::operator-(const Big ob){
+Big Big::operator-(const Big& ob){
     Big help;
     if (ob.number[0] == '-') help.number = ob.number.substr(1);
     else help.number = "-" + ob.number;
     return *this + help;
 }
-bool Big::operator==(const Big ob){
+bool Big::operator==(const Big& ob){
     return number == ob.number;
 }
-bool Big::operator!=(const Big ob){
+bool Big::operator!=(const Big& ob){
     return number != ob.number;
 }
 Big Big::operator++(){ //prefix
@@ -229,11 +232,11 @@ Big Big::operator--(int){
     *this = *this - "1";
     return tmp_ob;
 }
-Big Big::operator+=(const Big ob){
+Big Big::operator+=(const Big& ob){
     *this = *this + ob;
     return *this;
 }
-Big Big::operator-=(const Big ob){
+Big Big::operator-=(const Big& ob){
     *this = *this - ob;
     return *this;
 }
@@ -248,6 +251,86 @@ Big multiplication_to_odnozn(const Big ob1, const Big ob2){
     res.number = to_normal(res.number);
     return res;
 }
-Big Big::operator*(const Big ob){
-    //to do
+Big multiplication(const Big ob1, const Big ob2){
+    //ob1 > ob2 > 0
+    Big res = "0";
+    int stepen = 0;
+
+    for (int index = ob2.number.size() - 1; index >=0 ;--index){
+        std::string tmp_str(1,ob2.number[index]);
+        Big curr_digit = tmp_str;
+        if (stepen == 0) res += multiplication_to_odnozn(ob1,curr_digit);
+        else {
+            Big tmp = multiplication_to_odnozn(ob1,curr_digit);
+            tmp.number += std::string(stepen, '0');
+            res += tmp;
+        }
+        stepen++;
+    }
+    res.number = to_normal(res.number);
+    return res;
+}
+Big Big::operator*(const Big& ob){
+    int znac = 1;
+    Big arg1 = *this;
+    Big arg2 = ob;
+    if (arg1.number[0] == '-') {
+        znac *= -1;
+        arg1.number.erase(0,1);
+    }
+    if (arg2.number[0] == '-'){
+        znac *= -1;
+        arg2.number.erase(0,1);
+    }
+    if (is_first_more(arg2.number,arg1.number)){
+        //Поменять arg1 и arg2 местами
+        Big tmp  = arg1;
+        arg1 = arg2;
+        arg2 = tmp;
+    }
+    Big res = multiplication(arg1,arg2);
+    if (znac == -1) res.number.insert(0,"-");
+    res.number = to_normal(res.number);
+    return res;
+}
+Big Big::operator*=(const Big& ob){
+    *this = *this * ob;
+    return *this;
+}
+bool Big::operator>(const Big& ob){
+    if (*this == ob) return false;
+    if (this->number[0] == '-' && ob.number[0] != '-') return false; // - +
+    if (this->number[0] != '-' && ob.number[0] == '-') return true; // + -
+    if (this->number[0] != '-' && ob.number[0] != '-' ){
+        // - +
+        if (is_first_more(this->number, ob.number)) return true;   
+        else return false;
+    }                                                                                    
+    if (is_first_more(this->number, ob.number)) return false;
+    else return true;                                         // - -
+}
+bool Big::operator<(const Big& ob){
+    if (*this == ob) return false;
+    return !(*this > ob);
+}
+bool Big::operator>=(const Big& ob){
+    return !(*this < ob);
+}
+bool Big::operator<=(const Big& ob){
+    return !(*this > ob);
+}
+Big Big::pow(const Big& ob){
+    if (ob.number[0] == '-') {
+        std::cout<<"[-] Степень не может быть меньше нуля";
+        exit(1);
+    }
+    if (ob.number == "0") return "1";
+    Big res = "1";
+    Big arg = ob;
+    while (arg.number != "0"){
+        res *= *this;
+        arg--;
+    }
+    res.number = to_normal(res.number);
+    return res;
 }
